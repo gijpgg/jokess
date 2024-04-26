@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Piadas',
+      title: 'Dad Jokes',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,10 +32,10 @@ class _JokePageState extends State<JokePage> {
   String _joke = '';
 
   Future<void> _fetchJoke() async {
-    final response = await http.get(Uri.parse('https://api.piadas.dev/v1/piadas/random'));
+    final response = await http.get(Uri.parse('https://icanhazdadjoke.com/'), headers: {'Accept': 'application/json'});
     if (response.statusCode == 200) {
       setState(() {
-        _joke = json.decode(response.body)['piada'];
+        _joke = json.decode(response.body)['joke'];
       });
     } else {
       throw Exception('Failed to load joke');
@@ -46,21 +46,21 @@ class _JokePageState extends State<JokePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Piadas'),
+        title: const Text('Dad Jokes'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              _joke.isNotEmpty ? _joke : 'Pressione o botão para obter uma piada!',
+              _joke.isNotEmpty ? _joke : 'Press the button to get a dad joke!',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _fetchJoke,
-              child: const Text('Obter Piada'),
+              child: const Text('Get Joke'),
             ),
           ],
         ),
